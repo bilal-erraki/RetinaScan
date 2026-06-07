@@ -25,3 +25,7 @@ Thumbs.db
 
 best_finetuned_model.keras
 retinascan_efficientnetb3_improved.keras
+
+best_finetuned_model.keras
+retinascan_efficientnetb3_improved.keras
+test.py
