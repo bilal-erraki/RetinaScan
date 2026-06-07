@@ -19,13 +19,15 @@ test_images/
 history/
 *.log
 
+# Old/duplicate models
+best_finetuned_model.keras
+retinascan_efficientnetb3_improved.keras
+
+# Test files
+test.py
+explore_data.py
+train_baseline.py
+
 # OS
 .DS_Store
 Thumbs.db
-
-best_finetuned_model.keras
-retinascan_efficientnetb3_improved.keras
-
-best_finetuned_model.keras
-retinascan_efficientnetb3_improved.keras
-test.py
