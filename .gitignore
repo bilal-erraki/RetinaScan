@@ -1,32 +1,24 @@
-﻿__pycache__/
+﻿# Python
+__pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-.env
+# Environments
 .venv/
 venv/
-myenv/
+env/
+.conda/
 
+# Dataset
 aptos2019-blindness-detection/
-data/
-dataset/
-datasets/
-
-models/
-checkpoints/
-history/
-
-*.keras
-*.h5
-*.pt
-*.pth
-*.onnx
-*.pkl
-*.joblib
-
+train_images/
+test_images/
 *.zip
-*.rar
-*.7z
 
+# Logs
+history/
+*.log
+
+# OS
 .DS_Store
 Thumbs.db

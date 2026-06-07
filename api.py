@@ -1,46 +1,27 @@
-import os
 import numpy as np
-import tensorflow as tf
 
 from fastapi import FastAPI, UploadFile, File
-from PIL import Image
-from io import BytesIO
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "best_finetuned_model.keras")
+from inference_utils import (
+    CLASS_NAMES,
+    get_default_model_path,
+    get_model_image_size,
+    load_retinascan_model,
+    preprocess_image,
+    should_crop_retina,
+)
 
-IMG_SIZE = 224
-
-class_names = {
-    0: "No DR",
-    1: "Mild",
-    2: "Moderate",
-    3: "Severe",
-    4: "Proliferative DR"
-}
+MODEL_PATH = get_default_model_path()
 
 app = FastAPI(title="RetinaScan API")
 
-print("Loading model...")
-
-model = tf.keras.models.load_model(
-    MODEL_PATH,
-    safe_mode=False,
-    custom_objects={"preprocess_input": preprocess_input}
-)
-
+print("Loading model:", MODEL_PATH)
+model = load_retinascan_model(MODEL_PATH)
+IMG_SIZE = get_model_image_size(model)
+CROP_RETINA = should_crop_retina(MODEL_PATH)
 print("Model loaded successfully")
-
-
-def preprocess_image(image_bytes):
-    image = Image.open(BytesIO(image_bytes)).convert("RGB")
-    image = image.resize((IMG_SIZE, IMG_SIZE))
-
-    image_array = np.array(image).astype("float32")
-    image_array = np.expand_dims(image_array, axis=0)
-
-    return image_array
+print("Image size:", IMG_SIZE)
+print("Crop retina:", CROP_RETINA)
 
 
 @app.get("/")
@@ -52,7 +33,11 @@ def home():
 async def predict(file: UploadFile = File(...)):
     image_bytes = await file.read()
 
-    image_array = preprocess_image(image_bytes)
+    image_array = preprocess_image(
+        image_bytes,
+        image_size=IMG_SIZE,
+        crop_retina=CROP_RETINA,
+    )
 
     predictions = model.predict(image_array)
 
@@ -60,13 +45,13 @@ async def predict(file: UploadFile = File(...)):
     confidence = float(np.max(predictions[0]))
 
     probabilities = {
-        class_names[i]: float(predictions[0][i])
-        for i in range(len(class_names))
+        CLASS_NAMES[i]: float(predictions[0][i])
+        for i in range(len(CLASS_NAMES))
     }
 
     return {
         "predicted_class": predicted_class,
-        "predicted_label": class_names[predicted_class],
+        "predicted_label": CLASS_NAMES[predicted_class],
         "confidence": round(confidence * 100, 2),
         "probabilities": probabilities
     }
