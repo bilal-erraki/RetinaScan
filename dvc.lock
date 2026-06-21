@@ -1,0 +1,31 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/data_loader.py
+    deps:
+    - path: aptos2019-blindness-detection/train.csv
+      hash: md5
+      md5: b49acd4cd224f8e112424a7e41da692f
+      size: 54948
+    - path: src/config.py
+      hash: md5
+      md5: 6c08922d5a36eee05eb99a41f47c1fe9
+      size: 1512
+    - path: src/data_loader.py
+      hash: md5
+      md5: 7ef41ed607fda6729f6e6e972d36223f
+      size: 5963
+    params:
+      params.yaml:
+        data.dataset_dir: aptos2019-blindness-detection
+        data.random_state: 42
+        data.val_size: 0.2
+    outs:
+    - path: data/processed/train_split.csv
+      hash: md5
+      md5: ac6f17aedd004ee92447da01db38f82a
+      size: 222634
+    - path: data/processed/val_split.csv
+      hash: md5
+      md5: 3f66cdbb4087ef7f2530827b32523424
+      size: 55738

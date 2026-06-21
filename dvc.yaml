@@ -1,0 +1,60 @@
+vars:
+  - params.yaml
+
+stages:
+  prepare:
+    cmd: python src/data_loader.py
+    deps:
+      - src/config.py
+      - src/data_loader.py
+      - ${data.dataset_dir}/train.csv
+    params:
+      - data.dataset_dir
+      - data.val_size
+      - data.random_state
+    outs:
+      - data/processed/train_split.csv
+      - data/processed/val_split.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/config.py
+      - src/data_loader.py
+      - src/preprocessing.py
+      - src/train.py
+      - requirements.txt
+      - data/processed/train_split.csv
+      - data/processed/val_split.csv
+      - ${data.dataset_dir}/train_images
+    params:
+      - data.image_size
+      - data.random_state
+      - data.num_classes
+      - train
+    outs:
+      - models/best_model.keras
+      - reports/training_history.png
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/config.py
+      - src/data_loader.py
+      - src/evaluate.py
+      - src/preprocessing.py
+      - requirements.txt
+      - models/best_model.keras
+      - data/processed/val_split.csv
+      - ${data.dataset_dir}/train_images
+    params:
+      - data.image_size
+      - data.random_state
+      - train.batch_size
+      - evaluate
+    metrics:
+      - reports/metrics.json:
+          cache: false
+    outs:
+      - reports/classification_report.json
+      - reports/confusion_matrix.png

@@ -1,33 +1,40 @@
-﻿# Python
+# Python
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
-
-# Environments
+.pytest_cache/
+.coverage
+htmlcov/
 .venv/
 venv/
-env/
-.conda/
+.env
 
-# Dataset
+# Data
+/data/raw/
+/data/processed/
 aptos2019-blindness-detection/
 train_images/
 test_images/
 *.zip
 
-# Logs
+# Models
+*.keras
+*.h5
+models/*.keras
+models/*.h5
+
+# Training and experiment output
 history/
 *.log
+mlruns/
+reports/figures/*.png
+reports/*.png
+reports/classification_report.json
 
-# Old/duplicate models
-best_finetuned_model.keras
-retinascan_efficientnetb3_improved.keras
+# DVC cache (keep .dvc files, dvc.yaml, dvc.lock, and params.yaml)
+.dvc/cache/
 
-# Test files
-test.py
-explore_data.py
-train_baseline.py
-
-# OS
+# IDE / OS
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db

@@ -1,0 +1,13 @@
+{
+  "model_name": "RetinaScan EfficientNetB3",
+  "version": "1.0.0",
+  "task": "Diabetic retinopathy classification from fundus images",
+  "classes": ["No DR", "Mild", "Moderate", "Severe", "Proliferative DR"],
+  "image_size": 300,
+  "validation_accuracy": 0.7858,
+  "validation_loss": 0.6081,
+  "quadratic_weighted_kappa": 0.8603,
+  "macro_f1": 0.6021,
+  "weighted_f1": 0.7773,
+  "disclaimer": "Academic demo only. Not a medical diagnostic device."
+}

@@ -1,0 +1,7 @@
+{
+  "validation_accuracy": 0.8130968622100955,
+  "quadratic_weighted_kappa": 0.8800078099840407,
+  "macro_f1": 0.6344642664769935,
+  "weighted_f1": 0.8039703000729087,
+  "validation_loss": 0.5526842474937439
+}

@@ -1,0 +1,24 @@
+data:
+  dataset_dir: aptos2019-blindness-detection
+  image_size: 300
+  val_size: 0.2
+  random_state: 42
+  num_classes: 5
+
+train:
+  backbone: EfficientNetB3
+  weights: imagenet
+  batch_size: 16
+  epochs_head: 12
+  epochs_finetune: 25
+  lr_head: 0.001
+  lr_finetune: 0.00002
+  optimizer: AdamW_or_Adam
+  loss: sparse_categorical_crossentropy
+  class_weighting: sqrt_balanced_weights
+  fine_tune_layers: 80
+  early_stopping_patience: 6
+
+evaluate:
+  main_metric: quadratic_weighted_kappa
+  min_validation_accuracy: 0.75
